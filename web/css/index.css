@@ -1,0 +1,39 @@
+/*::-webkit-scrollbar {*/
+/*height: 0;*/
+/*width: 0;*/
+/*background: rgba(0, 0, 0, 0);*/
+/*}*/
+/*::-webkit-scrollbar-thumb {*/
+/*    background: rgba(0, 0, 0, 0.3);*/
+/*    -webkit-border-radius: 6px;*/
+/*    -moz-border-radius: 6px;*/
+/*    border-radius: 6px;*/
+/*}*/
+/*html {*/
+/*使滚动条向移动端一样悬浮，不占宽度，但不会自动隐藏*/
+/*overflow-y: overlay;*/
+/*}*/
+.diary-item-content {
+    overflow: hidden
+}
+.modal-open{
+    overflow-y: scroll;
+}
+selector::-webkit-scrollbar{
+    width:0;
+}
+.container{
+    padding-right:15px!important;
+}
+body {
+    /*使滚动条出现时页面不跳动*/
+    overflow-y: scroll;
+    max-width: 800px;
+    min-width: 400px;
+    margin:auto;
+    padding: 10px!important;
+    background-color: #EFEFEF;
+}
+img {
+    width: 100%;
+}
