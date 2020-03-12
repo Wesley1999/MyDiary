@@ -17,10 +17,10 @@ $(function () {
     getDiaries(paramsMap);
 
     $(document).scroll(function () {
-        if ($(document).height() - $(document).scrollTop() - window.innerHeight < 1000) {
+        if ($(document).height() - $(document).scrollTop() - window.innerHeight < 2000) {
             if (!tryingGettingNextPage) {
                 tryingGettingNextPage = true;
-                paramsMap.set("startIndex", paramsMap.get("startIndex") + 10)
+                paramsMap.set("startIndex", paramsMap.get("startIndex") + 10);
                 getDiaries(paramsMap);
             }
         }
