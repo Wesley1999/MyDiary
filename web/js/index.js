@@ -14,6 +14,17 @@ $(function () {
     paramsMap.set("startIndex", nextDiaryIndex);
     editing = false;
 
+    setInterval(function() {
+        if (editing) {
+	    $.ajax({
+        	url: '/api/update_diary.action',
+        	success: function (returnData) {
+	    	   alert(1)
+		}
+	    })
+	}
+    }, 3000)
+    
     getDiaries(paramsMap);
 
     $(document).scroll(function () {

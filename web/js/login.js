@@ -1,4 +1,22 @@
 $(function () {
+
+    $(".no-ime").focusin(function(){
+        $(this).attr("type","url");
+    });
+    $(".no-ime").focusout(function(){
+        $(this).attr("type","text");
+    });
+    $(".no-ime").on("input", function(){
+        var that = $(this);
+        var val = that.val();
+        var expression = /[\u4E00-\u9FA5]/;
+        var rep = new RegExp(expression);
+        if(rep.test(val)){
+            alert("请使用拼音输入！");
+            that.val("");
+        }
+    });
+
     $.ajax({
         url: '/api/whether_login.action',
         type: "POST",

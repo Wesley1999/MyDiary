@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <!--jQuery-->
     <script src="jQuery/jquery-3.4.1.min.js"></script>
+    <script src="jQuery/jquery.password.js"></script>
     <!-- BootStrap -->
     <link rel="stylesheet"  href="bootstrap/css/bootstrap.min.css">
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -52,7 +53,7 @@
     </div>
     <div class="form-group">
         <label for="SECRET_KEY">日记密码</label>
-        <input type="password" class="form-control" id="SECRET_KEY" placeholder="登录预览账户不必输入">
+        <input type="text" tts_passwd class="form-control no-ime" id="SECRET_KEY" placeholder="登录预览账户不必输入" autocomplete="off" oncopy="return false" oncut="return false">
     </div>
     <div class="row" style="margin: 0">
         <button id="log_in_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">登录</button>

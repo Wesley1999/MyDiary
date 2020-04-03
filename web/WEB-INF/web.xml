@@ -29,7 +29,7 @@
 
     <!--Session存活时间-->
     <session-config>
-        <session-timeout>1440</session-timeout>
+        <session-timeout>10</session-timeout>
     </session-config>
 
 </web-app>
