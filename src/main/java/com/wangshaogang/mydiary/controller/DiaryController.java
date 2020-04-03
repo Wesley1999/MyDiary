@@ -78,9 +78,10 @@ public class DiaryController {
         }
     }
 
+    // 检查是否已登录，也可以调用此接口延长session生命周期
     @RequestMapping("whether_login.action")
     public ServerResponse<Boolean> whetherLogin(HttpSession session) {
-        return ServerResponse.createSuccessResponse(session.getAttribute(SessionKey.WEBDAV_URL ) != null);
+        return ServerResponse.createSuccessResponse(session.getAttribute(SessionKey.WEBDAV_URL) != null);
     }
 
     @RequestMapping("logout.action")

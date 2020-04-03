@@ -15,15 +15,19 @@ $(function () {
     editing = false;
 
     setInterval(function() {
-        if (editing) {
+        if (editing && !document.hidden) {
 	    $.ajax({
-        	url: '/api/update_diary.action',
+        	url: '/api/whether_login.action',
         	success: function (returnData) {
-	    	   alert(1)
-		}
+                if (returnData.status == 0 && returnData.data) {
+                    console.log("已确认登录信息并延长session生命周期")
+                } else {
+                    alert("登录信息已超时，请保存输入内容后重新登录")
+                }
+		    }
 	    })
 	}
-    }, 3000)
+    }, 601000)
     
     getDiaries(paramsMap);
 
