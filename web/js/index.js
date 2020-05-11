@@ -15,18 +15,19 @@ $(function () {
     editing = false;
 
     setInterval(function() {
-        if (editing && !document.hidden) {
-            $.ajax({
-                url: '/api/whether_login.action',
-                success: function (returnData) {
-                    if (returnData.status == 0 && returnData.data) {
-                        console.log("已确认登录信息并延长session生命周期")
-                    } else {
-                        alert("登录信息已超时，请保存输入内容后重新登录")
-                    }
+        // if (editing && !document.hidden) {
+        // 只要页面没有关闭，就持续保持登录
+        $.ajax({
+            url: '/api/whether_login.action',
+            success: function (returnData) {
+                if (returnData.status == 0 && returnData.data) {
+                    console.log("已确认登录信息并延长session生命周期")
+                } else {
+                    alert("登录信息已超时，请保存输入内容后重新登录")
                 }
-            })
-        }
+            }
+        })
+        // }
     }, 60000)
     
     getDiaries(paramsMap);
