@@ -1,6 +1,6 @@
-package com.wangshaogang.mydiary.base;
+package com.wangshaogang.mydiary.response;
 
-import com.wangshaogang.mydiary.base.consts.ResponseCode;
+import com.wangshaogang.mydiary.response.consts.ResponseCode;
 import lombok.Getter;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

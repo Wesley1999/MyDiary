@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 /**
  * 使用DES算法对字符串进行加密解密 (加密解密的操作步骤正好相反, 参考 {@link #encrypt(String)}, {@link #decrypt(String)})
  */
-public class AES {
+public class AESUtils {
     private static String defaultSecretKey = "default_secret_key"; //默认密钥
     private Cipher encryptCipher = null; //加密器
     private Cipher decryptCipher = null; //解密器
@@ -17,7 +17,7 @@ public class AES {
     /**
      * @param secretKey 加密解密使用的密钥
      */
-    public AES(String secretKey) {
+    public AESUtils(String secretKey) {
         Key key;
         try {
             key = getKey(secretKey.getBytes());
@@ -32,8 +32,9 @@ public class AES {
 
     /**
      * 加密 (逻辑: 1. 将要加密的字符串转换为字节数组(byte array)<br/>
-     *            2. 将第一步的字节数组作为输入使用加密器(Cipher)的doFinal方法进行加密, 返回字节数组<br/>
-     *            3. 把加密后的字节数组转换成十六进制的字符串)<br/>
+     * 2. 将第一步的字节数组作为输入使用加密器(Cipher)的doFinal方法进行加密, 返回字节数组<br/>
+     * 3. 把加密后的字节数组转换成十六进制的字符串)<br/>
+     *
      * @param strIn 要加密的字符串
      * @return 返回加密后的十六进制字符串
      * @throws Exception
@@ -48,8 +49,9 @@ public class AES {
 
     /**
      * 解密 (逻辑: 1. 把加密后的十六进制字符串转换成字节数组(byte array)<br/>
-     *            2. 将第一步的字节数组作为输入使用加密器(Cipher)的doFinal方法进行解密, 返回字节数组(byte array)<br/>
-     *            3. 把解密后的字节数组转换成字符串)<br/>
+     * 2. 将第一步的字节数组作为输入使用加密器(Cipher)的doFinal方法进行解密, 返回字节数组(byte array)<br/>
+     * 3. 把解密后的字节数组转换成字符串)<br/>
+     *
      * @param strIn
      * @return
      * @throws Exception
@@ -110,6 +112,16 @@ public class AES {
         return key;
     }
 
+    public static String encrypt(String string, String password) throws Exception {
+        AESUtils des = new AESUtils(password);
+        return des.encrypt(string);
+    }
+
+    public static String decrypt(String string, String password) {
+        AESUtils des = new AESUtils(password);
+        return des.decrypt(string);
+    }
+
     /**
      * 用法实例
      */
@@ -117,7 +129,7 @@ public class AES {
         try {
             String test = "ha哈哈111";
             //注意这里，自定义的加密的KEY要和解密的KEY一致，这就是钥匙，如果你上锁了，却忘了钥匙，那么是解密不了的
-            AES des = new AES("leemenz"); //自定义密钥
+            AESUtils des = new AESUtils("leemenz"); //自定义密钥
             System.out.println("加密前的字符：" + test);
             System.out.println("加密后的字符：" + des.encrypt(test));
             System.out.println("解密后的字符：" + des.decrypt(des.encrypt(test)));

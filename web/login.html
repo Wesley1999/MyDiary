@@ -44,58 +44,16 @@
     <br>
     <br>
     <div class="form-group">
-        <label for="WEBDAV_USERNAME">坚果云账号</label>
-        <input type="text" class="form-control" id="WEBDAV_USERNAME" placeholder="登录预览账户不必输入">
-    </div>
-    <div class="form-group">
-        <label for="WEBDAV_PASSWORD">WebDAV应用密码</label><a href="http://help.jianguoyun.com/?p=2064" target="_blank" style="font-size: 13px"> (如何获取？)</a>
-        <input type="password" class="form-control" id="WEBDAV_PASSWORD" placeholder="登录预览账户不必输入">
-    </div>
-    <div class="form-group">
         <label for="SECRET_KEY">日记密码</label>
-        <input type="text" tts_passwd class="form-control no-ime" id="SECRET_KEY" placeholder="登录预览账户不必输入" autocomplete="off" oncopy="return false" oncut="return false">
+        <input type="password" class="form-control" id="SECRET_KEY">
+<!--        <input type="text" tts_passwd class="form-control no-ime" id="SECRET_KEY" placeholder="登录预览账户不必输入" autocomplete="off" oncopy="return false" oncut="return false">-->
     </div>
     <div class="row" style="margin: 0">
         <button id="log_in_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">登录</button>
         <button type="button" class="btn btn-primary" id="loging_in_button" style="display:none; width: 58px; height: 38px; margin-right: 15px" disabled><div class="spinner-border" role="status" style="width: 1.4rem; height: 1.4rem"></div></button>
-        <button id="initialize_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">初始化</button>
         <button id="change_password_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">修改日记密码</button>
     </div>
 </form>
-
-<!-- 初始化modal -->
-<div class="modal fade" id="initialize_modal" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" >初始化</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="WEBDAV_USERNAME">坚果云账号</label>
-                    <input type="text" class="form-control" id="WEBDAV_USERNAME_initialization">
-                </div>
-                <div class="form-group">
-                    <label for="WEBDAV_PASSWORD">WebDAV应用密码</label><a href="http://help.jianguoyun.com/?p=2064" target="_blank" style="font-size: 13px"> (如何获取？)</a>
-                    <input type="password" class="form-control" id="WEBDAV_PASSWORD_initialization">
-                </div>
-                <div class="form-group">
-                    <label for="SECRET_KEY">日记密码</label>
-                    <input type="password" class="form-control" id="SECRET_KEY_initialization">
-                </div>
-                <div class="form-group">
-                    <label for="SECRET_KEY">再次输入日记密码</label>
-                    <input type="password" class="form-control" id="repeat_SECRET_KEY_initialization">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="initialization_cancel_click()">取消</button>
-                <button type="button" class="btn btn-primary" id="initialize_confirm_button" style="display: block" onclick="initialization_confirm_click()">确定</button>
-                <button type="button" class="btn btn-primary" id="initialize_confirming_button" style="display:none; width: 58px; height: 38px" disabled><div class="spinner-border" role="status" style="width: 1.4rem; height: 1.4rem"></div></button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- 修改密码modal -->
 <div class="modal fade" id="change_password_modal" tabindex="-1" aria-hidden="true" data-backdrop="static">
@@ -105,14 +63,6 @@
                 <h4 class="modal-title" >修改日记密码</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="WEBDAV_USERNAME">坚果云账号</label>
-                    <input type="text" class="form-control" id="WEBDAV_USERNAME_change_password">
-                </div>
-                <div class="form-group">
-                    <label for="WEBDAV_PASSWORD">WebDAV应用密码</label>
-                    <input type="password" class="form-control" id="WEBDAV_PASSWORD_change_password">
-                </div>
                 <div class="form-group">
                     <label for="SECRET_KEY">旧日记密码</label>
                     <input type="password" class="form-control" id="SECRET_KEY_change_password_old">

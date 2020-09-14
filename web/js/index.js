@@ -8,11 +8,13 @@ window.onbeforeunload=function(){
 $(function () {
     // 全局变量
     tryingGettingNextPage = true;
-    nextDiaryIndex = 0;
+    pageNum = 1;
     paramsMap = new Map();
     totalDiaries = 2147483647;
-    paramsMap.set("startIndex", nextDiaryIndex);
+    paramsMap.set("pageNum", pageNum);
     editing = false;
+    loadComplete = false
+    pageIsIndex = true
 
     setInterval(function() {
         // if (editing && !document.hidden) {
@@ -23,7 +25,9 @@ $(function () {
                 if (returnData.status == 0 && returnData.data) {
                     console.log("已确认登录信息并延长session生命周期")
                 } else {
-                    alert("登录信息已超时，请保存输入内容后重新登录")
+                    if (pageIsIndex) {
+                        alert("登录信息已超时，请保存输入内容后重新登录")
+                    }
                 }
             }
         })
@@ -33,10 +37,10 @@ $(function () {
     getDiaries(paramsMap);
 
     $(document).scroll(function () {
-        if ($(document).height() - $(document).scrollTop() - window.innerHeight < 2000) {
+        if ($(document).height() - $(document).scrollTop() - window.innerHeight < 100) {
             if (!tryingGettingNextPage) {
                 tryingGettingNextPage = true;
-                paramsMap.set("startIndex", paramsMap.get("startIndex") + 10);
+                paramsMap.set("pageNum", paramsMap.get("pageNum") + 1);
                 getDiaries(paramsMap);
             }
         }
@@ -49,6 +53,7 @@ $(function () {
             type: "POST",
             success: function (returnData) {
                 if (returnData.status == 0) {
+                    pageIsIndex = false
                     $("#body").load("login.html")
                 }
             }
@@ -261,9 +266,7 @@ function delete_button_click(target) {
     let jq_diary_item = $(target).parent().parent().parent();
     let uuid = decompressData(jq_diary_item.children().eq(0).html());
     let timeStamp = decompressData(jq_diary_item.children().eq(1).html());
-    let year = new Date(parseInt(timeStamp)).getFullYear();
     $("#delete_diary_uuid_info").html(uuid);
-    $("#delete_diary_year_info").html(year);
     $("#delete_alert").modal("show");
 }
 
@@ -274,9 +277,7 @@ function delete_alert_cancel_click() {
 function delete_alert_confirm_click() {
     let paramsMap = new Map();
     let uuid = $("#delete_diary_uuid_info").html();
-    let year = $("#delete_diary_year_info").html();
     paramsMap.set("uuid", uuid);
-    paramsMap.set("year", year);
     let jq_diary_item = $("#diary_item_"+uuid);
     $("#delete_alert_confirm_button").css("display", "none");
     $("#delete_alert_confirming_button").css("display", "block");
@@ -286,7 +287,7 @@ function delete_alert_confirm_click() {
         type: "POST",
         success: function (returnData) {
             if (returnData.status == 0) {
-                nextDiaryIndex--;
+                pageNum--;
                 $("#diary_number_info").text("("+ --totalDiaries +"篇日记)");
                 // alert("删除成功");
                 $("#delete_alert").modal("hide");
@@ -325,7 +326,7 @@ function filter_confirm_button_click() {
         paramsMap.set("endDate", endDate.valueOf())
     }
     paramsMap.set("keyWord", $("#keyWord").val());
-    paramsMap.set("startIndex", 0);
+    paramsMap.set("pageNum", 1);
     $("#diaryItems").empty();
     getDiaries(paramsMap, true)
 
@@ -343,9 +344,12 @@ function parseParameterByMap(paramsMap) {
 }
 
 function getDiaries(paramsMap, forcedGet=false) {
+    if (loadComplete) {
+        return;
+    }
     $("#loading_info").css("display", "block");
     $("#load_complete_info").css("display", "none");
-    if (forcedGet !== true && (paramsMap.get("startIndex") >= totalDiaries || totalDiaries === 0)) {
+    if (forcedGet !== true && (paramsMap.get("pageNum") >= totalDiaries || totalDiaries === 0)) {
         $("#loading_info").css("display", "none");
         $("#load_complete_info").css("display", "block");
         return;
@@ -357,13 +361,13 @@ function getDiaries(paramsMap, forcedGet=false) {
         data: parseParameterByMap(paramsMap),
         success: function (returnData) {
             if (returnData.status == 0) {
-                totalDiaries = returnData.data.totalItems;
-                let diaryList = returnData.data.diaryList;
+                totalDiaries = returnData.data.total;
+                let diaryList = returnData.data.list;
                 for (let i = 0; i < diaryList.length; i++) {
                     // 获取返回值中的信息
                     let originalContent = diaryList[i].content;
                     let uuid = diaryList[i].uuid;
-                    let diaryTime = diaryList[i].diaryTime;
+                    let diaryTime = diaryList[i].diarytime;
                     let diaryTimeDate = new Date(parseInt(diaryTime));
                     let diaryTimeString = dateToString(diaryTimeDate);
                     // 计算字数
@@ -401,18 +405,20 @@ function getDiaries(paramsMap, forcedGet=false) {
                         '    </div>\n' +
                         '')
                 }
-
                 // 获取页面完成
                 tryingGettingNextPage = false;
                 $("#diary_number_info").text("("+ totalDiaries +"篇日记)")
-                if (returnData.data.endIndex <= totalDiaries) {
+                $("#filter_confirm_button").css("display", "block");
+                $("#filter_confirming_button").css("display", "none");
+                if (!returnData.data.hasNextPage) {
+                    loadComplete = true
                     $("#loading_info").css("display", "none")
                     $("#load_complete_info").css("display", "block")
-                    $("#filter_confirm_button").css("display", "block");
-                    $("#filter_confirming_button").css("display", "none");
                 }
-            } else if (returnData.status == 110) {
+            } else if (returnData.status == 102 || returnData.status == 110) {
+                // 未登录 || 长时间未操作
                 // alert(returnData.msg);
+                pageIsIndex = false
                 $("#body").load("login.html");
                 $("#filter_confirm_button").css("display", "block");
                 $("#filter_confirming_button").css("display", "none");
