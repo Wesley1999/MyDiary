@@ -1,7 +1,7 @@
 package com.wangshaogang.mydiary.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import com.wangshaogang.mydiary.response.PageInfo;
 import com.wangshaogang.mydiary.response.ServerResponse;
 import com.wangshaogang.mydiary.response.consts.ResponseCode;
 import com.wangshaogang.mydiary.mapper.DiaryMapper;

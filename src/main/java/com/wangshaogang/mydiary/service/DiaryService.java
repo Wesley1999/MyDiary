@@ -1,7 +1,6 @@
 package com.wangshaogang.mydiary.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.wangshaogang.mydiary.response.PageInfo;
 import com.wangshaogang.mydiary.response.ServerResponse;
 import com.wangshaogang.mydiary.response.consts.ResponseCode;
 import com.wangshaogang.mydiary.mapper.DiaryMapper;
@@ -38,17 +37,35 @@ public class DiaryService {
 //    }
 
     public ServerResponse<PageInfo> getDiaries(int pageSize, int pageNum, String keyWord, Date startDate, Date endDate, String password) {
-        PageHelper.startPage(pageNum, pageSize);
+//        PageHelper.startPage(pageNum, pageSize);
         DiaryExample diaryExample = new DiaryExample();
         diaryExample.setOrderByClause("diaryTime desc");
-        diaryExample.createCriteria().andContentLike("%"+keyWord+"%").andDiarytimeGreaterThanOrEqualTo(startDate).andDiarytimeLessThanOrEqualTo(endDate);
+        diaryExample.createCriteria().andDiarytimeGreaterThanOrEqualTo(startDate).andDiarytimeLessThanOrEqualTo(endDate);
         List<Diary> diaryList = diaryMapper.selectByExample(diaryExample);
-        for (Diary diary : diaryList) {
+        // 解密 移除不包含keyword的数据
+        for (int i = 0; i < diaryList.size(); i++) {
+            Diary diary = diaryList.get(i);
             diary.setContent(DiaryAESUtils.diaryDecrypt(diary.getContent(), password));
+            if (!diary.getContent().toLowerCase().contains(keyWord.toLowerCase())) {
+                diaryList.remove(i--);
+            }
         }
-        PageInfo pageResult = new PageInfo(diaryList);
-        pageResult.setList(diaryList);
-        return ServerResponse.createSuccessResponse(pageResult);
+
+        PageInfo<Diary> diaryPageInfo = new PageInfo<>();
+        diaryPageInfo.setFirstPage(pageNum == 1);
+        diaryPageInfo.setLastPage(diaryList.size() <= pageSize * (pageNum));
+        diaryPageInfo.setHasPreviousPage(pageNum > 1);
+        diaryPageInfo.setHasNextPage(!diaryPageInfo.isLastPage());
+        diaryPageInfo.setPageNum(pageNum);
+        diaryPageInfo.setTotal(diaryList.size());
+        diaryPageInfo.setPages((diaryList.size() - 1) / pageSize + 1);
+        // 分页
+        int startIndex = (pageNum - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, diaryList.size());
+        List<Diary> diaries = diaryList.subList(startIndex, endIndex);
+        diaryPageInfo.setPageSize(diaries.size());
+        diaryPageInfo.setList(diaries);
+        return ServerResponse.createSuccessResponse(diaryPageInfo);
     }
 
     public ServerResponse<String> updateDiary(String uuid, Date diaryTime, String content, String password) throws Exception {
