@@ -117,32 +117,22 @@
                 <h4 class="modal-title">添加日记</h4>
             </div>
             <div class="modal-body" style="padding-top: 8px; padding-bottom: 8px">
-                    <input id="add_diary_time" class="form-control" style="max-width: 175px; background-color:white; box-shadow:none; float: left;" readonly placeholder="选择时间">
-<!--                    <div id="add_shortcut_button" style="font-size: 20px; padding-right: 10px; padding-top: 5px; float: right">-->
-<!--                        <i class="fas fa-images" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "\n![]()");window.open("http://picbed.wangshaogang.com/", "picbed")})()'></i>-->
-<!--                        <i class="fas fa-hashtag" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "#")})()'></i>-->
-<!--                        <i class="fas fa-quote-left" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "> ")})()'></i>-->
-<!--                        <i class="fas fa-minus" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "\n-&#45;&#45;\n")})()'></i>-->
-<!--                        <i class="fas fa-list" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "\n* \n* \n* ")})()'></i>-->
-<!--                        <i class="fas fa-list-ol" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "\n1. \n2. \n3. ")})()'></i>-->
-<!--                        <i class="fas fa-bold" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "****")})()'></i>-->
-<!--                        <i class="fas fa-italic" onclick='(function(){$("#add_input_text").val($("#add_input_text").val() + "**")})()'></i>-->
-<!--                    </div>-->
-                    <script>
-                        //时间选择器
-                        laydate.render({
-                            elem: '#add_diary_time',
-                            type: 'datetime',
-                            position: 'fixed'
-                        });
-                    </script>
+                <input id="add_diary_time" class="form-control" style="max-width: 175px; background-color:white; box-shadow:none; float: left;" readonly placeholder="选择时间">
+                <div style="float: right; line-height: 35px; margin-right: 10px" id="add_words">0字</div>
+                <script>
+                    //时间选择器
+                    laydate.render({
+                        elem: '#add_diary_time',
+                        type: 'datetime',
+                        position: 'fixed'
+                    });
+                </script>
                 <br>
                 <textarea class="form-control" id="add_input_text" style="box-shadow:none; margin-top: 23px; height: 250px" oninput='$("#add_words").html(wordsCountFunction($(this).val())+"字")'></textarea>
                 <div id="add_input_text_preview" style="box-shadow:none; margin-top: 30px; display: none; word-break:break-word; overflow:auto; margin-left: 13px; margin-right: 13px"></div>
 
             </div>
             <div class="modal-footer" style="display: block">
-                <div style="float: left; line-height: 35px; margin-left: 10px" id="add_words">0字</div>
                 <div class="form-inline" style="float: right">
                     <button type="button" class="btn btn-secondary" onclick="add_cancel_button_click()" style="margin-right: 10px">返回</button>
                     <button type="button" class="btn btn-success" id="add_preview_button" onclick="add_preview_button_click()" style="margin-right: 10px">预览</button>
@@ -164,16 +154,7 @@
             </div>
             <div class="modal-body" style="padding-top: 8px; padding-bottom: 8px">
                 <input id="edit_diary_time" class="form-control" style="max-width: 175px; background-color:white; box-shadow:none; float: left;" readonly placeholder="选择时间">
-<!--                <div id="edit_shortcut_button" style="font-size: 20px; padding-right: 10px; padding-top: 5px; float: right">-->
-<!--                    <i class="fas fa-images" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "\n![]()");window.open("http://picbed.wangshaogang.com/", "picbed")})()'></i>-->
-<!--                    <i class="fas fa-hashtag" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "#")})()'></i>-->
-<!--                    <i class="fas fa-quote-left" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "> ")})()'></i>-->
-<!--                    <i class="fas fa-minus" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "\n-&#45;&#45;\n")})()'></i>-->
-<!--                    <i class="fas fa-list" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "* \n* \n* ")})()'></i>-->
-<!--                    <i class="fas fa-list-ol" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "1. \n2. \n3. ")})()'></i>-->
-<!--                    <i class="fas fa-bold" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "****")})()'></i>-->
-<!--                    <i class="fas fa-italic" onclick='(function(){$("#edit_input_text").val($("#edit_input_text").val() + "**")})()'></i>-->
-<!--                </div>-->
+                    <div style="float: right; line-height: 35px; margin-right: 10px" id="edit_words">0字</div>
                 <script>
                     //时间选择器
                     laydate.render({
@@ -189,7 +170,6 @@
             <div class="modal-footer" style="display: block">
                 <!--隐藏的当前日记的uuid-->
                 <div id="edit_uuid_info" style="display: none"></div>
-                <div style="float: left; line-height: 35px; margin-left: 10px" id="edit_words">0字</div>
                 <div class="form-inline" style="float: right">
                     <button type="button" class="btn btn-secondary" onclick="edit_cancel_button_click()" style="margin-right: 10px">返回</button>
                     <button type="button" class="btn btn-success" id="edit_preview_button" onclick="edit_preview_button_click()" style="margin-right: 10px">预览</button>
