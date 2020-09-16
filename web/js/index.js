@@ -59,6 +59,14 @@ $(function () {
             }
         })
     })
+
+    // 输入时，按回车触发搜索
+    $("#keyWord").keydown(function(e){
+        if(e.keyCode == 13){
+            $("#keyWord").blur();
+            filter_confirm_button_click();
+        }
+    });
 });
 
 // 按钮
@@ -97,6 +105,9 @@ function edit_button_click(target) {
 }
 
 function edit_save_button_click() {
+    if ($("#edit_input_text").val() == "") {
+        return;
+    }
     let paramsMap = new Map();
     paramsMap.set("uuid", $("#edit_uuid_info").html());
     paramsMap.set("diaryTime", new Date($("#edit_diary_time").val()).valueOf());
@@ -186,8 +197,10 @@ function add_button_click() {
 }
 
 function add_save_button_click() {
+    if ($("#add_input_text").val() == "") {
+        return;
+    }
     let paramsMap = new Map();
-
     paramsMap.set("diaryTime", new Date($("#add_diary_time").val()).valueOf());
     paramsMap.set("content", $("#add_input_text").val());
     $("#add_save_button").css("display", "none");
@@ -310,6 +323,8 @@ function delete_alert_confirm_click() {
 
 
 function filter_confirm_button_click() {
+    // 恢复未加载完状态
+    loadComplete = false
     $("#filter_confirm_button").css("display", "none");
     $("#filter_confirming_button").css("display", "block");
     let startDate = new Date($("#filter_start_date").val());
@@ -408,8 +423,6 @@ function getDiaries(paramsMap, forcedGet=false) {
                 // 获取页面完成
                 tryingGettingNextPage = false;
                 $("#diary_number_info").text("("+ totalDiaries +"篇日记)")
-                $("#filter_confirm_button").css("display", "block");
-                $("#filter_confirming_button").css("display", "none");
                 if (!returnData.data.hasNextPage) {
                     loadComplete = true
                     $("#loading_info").css("display", "none")
@@ -420,9 +433,9 @@ function getDiaries(paramsMap, forcedGet=false) {
                 // alert(returnData.msg);
                 pageIsIndex = false
                 $("#body").load("login.html");
-                $("#filter_confirm_button").css("display", "block");
-                $("#filter_confirming_button").css("display", "none");
             }
+            $("#filter_confirm_button").css("display", "block");
+            $("#filter_confirming_button").css("display", "none");
         },
         error: function () {
             // 有可能发生超时
