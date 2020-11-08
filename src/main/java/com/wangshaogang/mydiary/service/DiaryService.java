@@ -10,6 +10,7 @@ import com.wangshaogang.mydiary.pojo.DiaryExample;
 import com.wangshaogang.mydiary.pojo.Setting;
 import com.wangshaogang.mydiary.utils.DiaryAESUtils;
 import com.wangshaogang.mydiary.utils.MD5Utils;
+import com.wangshaogang.mydiary.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,18 @@ public class DiaryService {
         List<Diary> diaries = diaryList.subList(startIndex, endIndex);
         diaryPageInfo.setPageSize(diaries.size());
         diaryPageInfo.setList(diaries);
+
+        int total_words = 0;
+        int page_words = 0;
+        for (Diary diary: diaryList) {
+            total_words += StringUtils.wordCount(diary.getContent());
+        }
+        for (Diary diary: diaries) {
+            page_words += StringUtils.wordCount(diary.getContent());
+        }
+
+        diaryPageInfo.setPageWords(page_words);
+        diaryPageInfo.setTotalWords(total_words);
         return ServerResponse.createSuccessResponse(diaryPageInfo);
     }
 

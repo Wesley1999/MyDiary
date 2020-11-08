@@ -29,4 +29,8 @@ public class PageInfo<T> implements Serializable {
     //是否有下一页
     private boolean hasNextPage = false;
 
+    private int pageWords;
+
+    private int totalWords;
+
 }
