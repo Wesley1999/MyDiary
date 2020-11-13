@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <!-- Required meta tags -->
@@ -44,14 +44,20 @@
     <br>
     <br>
     <div class="form-group">
-        <label for="SECRET_KEY">日记密码</label>
-        <input type="password" class="form-control" id="SECRET_KEY">
+        <label for="SECRET_KEY">密码</label>
+        <input type="tel"
+                  style="text-security:disc;
+                  -webkit-text-security:disc;"
+                  autocomplete="off"
+                  class="form-control"
+                  id="SECRET_KEY">
+        </input>
 <!--        <input type="text" tts_passwd class="form-control no-ime" id="SECRET_KEY" placeholder="登录预览账户不必输入" autocomplete="off" oncopy="return false" oncut="return false">-->
     </div>
     <div class="row" style="margin: 0">
         <button id="log_in_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">登录</button>
         <button type="button" class="btn btn-primary" id="loging_in_button" style="display:none; width: 58px; height: 38px; margin-right: 15px" disabled><div class="spinner-border" role="status" style="width: 1.4rem; height: 1.4rem"></div></button>
-        <button id="change_password_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">修改日记密码</button>
+        <button id="change_password_button" type="submit" class="btn btn-primary" style="display: block; margin-right: 15px">修改密码</button>
     </div>
 </form>
 
@@ -60,19 +66,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" >修改日记密码</h4>
+                <h4 class="modal-title" >修改密码</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="SECRET_KEY">旧日记密码</label>
+                    <label for="SECRET_KEY">旧密码</label>
                     <input type="password" class="form-control" id="SECRET_KEY_change_password_old">
                 </div>
                 <div class="form-group">
-                    <label for="SECRET_KEY">新日记密码</label>
+                    <label for="SECRET_KEY">新密码</label>
                     <input type="password" class="form-control" id="SECRET_KEY_change_password">
                 </div>
                 <div class="form-group">
-                    <label for="SECRET_KEY">再次输入新日记密码</label>
+                    <label for="SECRET_KEY">再次输入新密码</label>
                     <input type="password" class="form-control" id="repeat_SECRET_KEY_change_password">
                 </div>
             </div>

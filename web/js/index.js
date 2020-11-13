@@ -102,6 +102,10 @@ function edit_button_click(target) {
     $("#edit_words").html(wordsCountFunction($("#edit_input_text").val())+"字");
     $("#edit_uuid_info").html(uuid);
     $("#edit_diary_modal").modal("show");
+    // 等待动画加载完后才能聚焦
+    setTimeout(function () {
+        $('#edit_input_text').focus();
+    }, 150)
 }
 
 function edit_save_button_click() {
@@ -194,6 +198,10 @@ function add_button_click() {
     $("#add_shortcut_button").css("display", "block");
     $("#add_diary_time").val(new Date().format("yyyy-MM-dd hh:mm:ss"));
     $('#add_diary_modal').modal('show');
+    // 等待动画加载完后才能聚焦
+    setTimeout(function () {
+        $('#add_input_text').focus();
+    }, 150)
 }
 
 function add_save_button_click() {
@@ -278,7 +286,6 @@ function add_cancel_alert_confirm_click() {
 function delete_button_click(target) {
     let jq_diary_item = $(target).parent().parent().parent();
     let uuid = decompressData(jq_diary_item.children().eq(0).html());
-    let timeStamp = decompressData(jq_diary_item.children().eq(1).html());
     $("#delete_diary_uuid_info").html(uuid);
     $("#delete_alert").modal("show");
 }
